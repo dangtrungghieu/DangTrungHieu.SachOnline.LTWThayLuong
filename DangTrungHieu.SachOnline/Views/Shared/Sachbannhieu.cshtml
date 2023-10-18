@@ -1,0 +1,51 @@
+﻿@model IEnumerable<DangTrungHieu.SachOnline.Models.SACH>
+<h2 class="text-center">SÁCH BÁN NHIỀU</h2>
+<hr />
+<br />
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+            <div class="media-object-defaut">
+                <div class="media">
+                    <div class="media-left image-container">
+                        <a href="#"><img class="media-object imgsachbannhieu zoomable-image" src="~/Images/@product.AnhBia" alt="placeholder image" width="100" height="120" /></a><br />
+                    </div>
+                    <div class="media-body">
+                        <h3 style="font-family:'Times New Roman'"><a href="@Url.Action("ChiTietSach","SachOnline", new { id = product.MaSach})">@product.TenSach</a></h3>
+                        <p>@TrunCate(product.MoTa, 190)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+<hr />
+@helper TrunCate(string s, int length)
+{
+    if (s.Length < length)
+    {
+        @s
+    }
+    else
+    {
+        @s.Substring(0, length)<text>...</text>
+    }
+}
+<style>
+    .image-container {
+    position: relative;
+    overflow: hidden;
+    width: 40px;
+    height: 35px;
+}
+
+.zoomable-image {
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover .zoomable-image {
+    transform: scale(1.2);
+}
+</style>

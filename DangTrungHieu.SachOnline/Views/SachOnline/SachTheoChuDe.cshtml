@@ -1,0 +1,55 @@
+﻿@using DangTrungHieu.SachOnline.Models;
+@using PagedList.Mvc;
+@model PagedList.PagedList<SACH>
+
+@{
+    ViewBag.Title = "SachTheoChuDe";
+    Layout = "~/Views/Shared/LayoutSachOnline.cshtml";
+}
+
+<style type="text/css">
+    .MenuTrang {
+        display: inline;
+        text-align: center;
+    }
+
+    .imgbook {
+        transition: all 1s ease-in;
+        width: 400px;
+    }
+
+        .imgbook:hover {
+            transform: scale(0.9);
+            cursor: pointer;
+        }
+</style>
+<h3 class="text-center">Danh sách các quyển sách của chủ đề "@ViewBag.TenCD" </h3>
+<hr />
+
+<div class="row text-center">
+
+    @foreach (var sach in Model)
+    {
+
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xs-6">
+            <div class="thumbnail">
+                <img src="~/Images/@sach.AnhBia" alt="anhBia" class="img-responsive img-rounded imgbook" style="width:200px;" />
+                <div class="caption">
+                    <h4 style="min-height:70px">
+                        <a href="@Url.Action("ChiTietSach","SachOnline", new {id=@sach.MaSach })">@sach.TenSach</a>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount
+<div class="MenuTrang">
+    @Html.PagedListPager(Model, page => Url.Action("SachTheoChuDe", "SachOnline", new { iMaCD = ViewBag.MaCD, page = page }))
+</div>
+<style>
+    .MenuTrang {
+        display: inline;
+        text-align: center;
+    }
+</style>

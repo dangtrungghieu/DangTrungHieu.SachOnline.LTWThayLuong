@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/js")
+</head>
+<body>
+    @Html.Action("NavPartial", "SachOnline")
+    @RenderSection("Slider", required: false)
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                @Html.Action("ChuDePartial", "SachOnline")
+                @Html.Action("NXB", "SachOnline")
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                @RenderBody()
+            </div>
+        </div>
+    </div>     
+    <div class="container">
+        @RenderSection("Sachbannhieu",required:false)
+    </div>
+    @Html.Action("FooterPartial", "SachOnline")
+</body>
+</html>

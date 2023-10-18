@@ -1,0 +1,45 @@
+﻿@using DangTrungHieu.SachOnline.Models;
+@model IEnumerable<DangTrungHieu.SachOnline.Models.NHAXUATBAN>
+
+@{ ViewBag.Title = "Index";
+   Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml"; }
+
+<h2>Quản lí nhà xuất bản</h2>
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên nhà xuất bản
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            SĐT
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.TenNXB)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DiaChi)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DienThoai)
+    </td>
+    <td>
+        <a href="@Url.Action("Edit", new { id = item.MaNXB })" class="btn btn-warning" role="button">Sửa</a>
+        <a href="@Url.Action("Details", new { id = item.MaNXB })" class="btn btn-primary" role="button">Chi tiết</a>
+        <a href="@Url.Action("Delete", new { id = item.MaNXB })" class="btn btn-danger" role="button">Xóa</a>
+    </td>
+</tr>}
+
+</table>

@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Group";
+    Layout = "~/Views/Shared/LayoutSachOnline.cshtml";
+}
+
+<style>
+    .table tr td {
+        border: 1px solid black;
+    }
+</style>
+@model IEnumerable<IGrouping<int?, DangTrungHieu.SachOnline.Models.SACH>>   
+    <h2>DANH SÁCH SÁCH THEO CHỦ ĐỀ</h2>
+@foreach (var item in Model){ 
+    <div>
+        <h4 style="font-weight: bold; color: red">MÃ CHỦ ĐỀ @item.Key</h4>
+        <table class="table">
+            <tr style="background-color: burlywood;  font-weight: bold">
+                <td>Mã Sách</td>
+                <td>Tên Sách</td>
+                <td>Tên CD</td>
+            </tr>
+            @foreach(var sach in item)
+                {
+                    <tr>
+                        <td>@sach.MaSach</td>
+                        <td>@sach.TenSach</td>
+                        <td>@sach.CHUDE.TenChuDe</td>
+                    </tr>
+                }
+        </table>
+    </div>
+}

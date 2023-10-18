@@ -1,0 +1,20 @@
+﻿@using DangTrungHieu.SachOnline.Models;
+@{ KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"]; }
+@if (Session["TaiKhoan"] == null) 
+{
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Người dùng <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("DangKy","User")"><span class="glyphicon glyphicon-user"></span> Đăng ký</a> </li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("DangNhap","User")"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+                </ul>
+ }
+else
+{
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Xin chào: @kh.HoTen <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Thông tin chi tiết</a> </li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("DangXuat","User")"><span class="glyphicon glyphicon-log-in"></span> Đăng xuất</a></li>
+                </ul>
+}

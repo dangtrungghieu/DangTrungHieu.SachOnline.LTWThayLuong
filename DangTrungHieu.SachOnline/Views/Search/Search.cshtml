@@ -1,0 +1,84 @@
+﻿@using DangTrungHieu.SachOnline.Models
+@model IEnumerable<DangTrungHieu.SachOnline.Models.SACH>
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/LayoutSachOnline.cshtml";
+}
+<br />
+<style>
+  .macd   {
+        width: 200px;
+        height: 23px;
+    }
+  .Search{
+      display:flex;
+      flex-direction: row;
+      
+  }
+    .Search div {
+        padding: 5px;
+    }
+    
+</style>
+<br />
+@using (Html.BeginForm("Search", "Search", FormMethod.Get))
+{
+<div class="Search">
+    <div class="SearchTheoCD">
+        Chủ đề:
+        @Html.DropDownList("maCD", null, htmlAttributes: new { @class = "macd" })
+    </div>
+    <div class="SearchTheoTenSP">
+        Tên sản phẩm:
+        <input type="text" name="strSearch" value="@ViewBag.Search" placeholder="Nhập sản phẩm cần tìm..." size="30" /> <input type="submit" value="Tìm kiếm" />
+    </div>
+</div>
+}
+
+@{
+    if (Model != null)
+    {
+        <h3>Kết quả tìm: @ViewBag.Search</h3>
+        <table class="table">
+            <tr>
+                <th>TenSach</th>
+                <th>GiaBan</th>
+                <th>MoTa</th>
+                <th>AnhBia</th>
+                <th>NgayCapNhat</th>
+                <th>SoLuongBan</th>
+                <th>MaCD</th>
+                <th>MaNXB</th>
+                <th></th>
+            </tr>
+
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.TenSach</td>
+                    <td>@product.GiaBan</td>
+                    <td>@TrunCate(@product.MoTa, 190)</td>
+                    <td>@product.AnhBia</td>
+                    <td>@product.NgayCapNhat</td>
+                    <td>@product.SoLuongBan</td>
+                    <td>@product.MaCD</td>
+                    <td>@product.MaNXB</td>
+                    <td><a href="@Url.Action("ChiTietSach", "SachOnline", new { id = product.MaSach })">Chi Tiết</a></td>
+                </tr>
+            }
+
+        </table>
+    }
+}
+@helper TrunCate(string s, int length)
+{
+    if (s.Length < length)
+    {
+        @s
+    }
+    else
+    {
+        @s.Substring(0, length)<text>...</text>
+    }
+}

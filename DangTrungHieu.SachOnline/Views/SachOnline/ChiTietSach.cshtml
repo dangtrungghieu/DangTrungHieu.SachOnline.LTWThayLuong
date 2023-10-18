@@ -1,0 +1,40 @@
+﻿@model DangTrungHieu.SachOnline.Models.SACH
+
+@{
+    ViewBag.Title = "ChiTietSach";
+    Layout = "~/Views/Shared/LayoutSachOnline.cshtml";
+}
+<style>
+    .add {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .add a {
+            padding: 10px;
+    }
+
+    .thumbnail {
+        border: none;
+        padding: 10px;
+    }
+</style>
+
+<div class="thumbnail">
+    <h4 class="tensach" style="color:red; font-family:'Times New Roman'; font-weight:bold; text-align:center">@Model.TenSach</h4><br />
+    <img src="~/Images/@Model.AnhBia" alt="sach" width="200" height="200" /><br />
+    <div class="motasach">
+        <p> @Html.Raw(@Model.MoTa.ToString().Replace("\n","</p><p>&nbsp&nbsp&nbsp&nbsp&nbsp"));</p>
+    </div>
+
+    <div class="add">
+            
+        <div class="addtocard">
+            <p>Ngày cập nhật: @Html.FormatValue(@Model.NgayCapNhat, "{0:dd/MM/yyyy}")</p>
+            <p>Giá bán: <span style="color:blue; font-weight:bold">@Html.FormatValue(@Model.GiaBan, "{0:#,##0}")</span> VNĐ</p>
+            <a href="@Url.Action("ThemGioHang","GioHang", new { ms = @Model.MaSach, url = Request.Url.ToString()})" class="btn btn-primary bt" role="button"><span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart</a>
+        </div>
+    </div>
+</div>
+
