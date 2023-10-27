@@ -3,9 +3,8 @@
     ViewBag.Title = "XacNhanDonHang";
     Layout = "~/Views/Shared/LayoutSachOnline.cshtml";
 }
-
-<h2>Xác nhận đơn hàng</h2>
-<h4>Đơn hàng của quý khách đã được chúng tôi ghi nhận </h4>
+<h2 style="font-size: 24px; color: #333; font-weight: bold; margin: 10px 0;">Xác nhận đơn hàng</h2>
+<h4 style="font-size: 18px; color: #666; font-weight: normal; margin: 5px 0;">Đơn hàng của quý khách đã được chúng tôi ghi nhận và gửi về email của quý khách là: <p style="color:red; font-size: 20px; font-weight:bold">@ViewBag.Email</p></h4>
 <p>
     @Html.ActionLink("VỀ TRANG CHỦ", "SachOnline", "SachOnline")
 </p>

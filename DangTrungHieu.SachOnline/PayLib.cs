@@ -40,11 +40,14 @@ namespace DangTrungHieu.SachOnline
 
                 signData = signData.Remove(data.Length - 1, 1);
             }
-            string vnp_SecureHash = Until.HmacSHA512(vnp_HashSecret, signData);
+            string vnp_SecureHash = Util.HmacSHA512(vnp_HashSecret, signData);
             baseUrl += "vnp_SecureHash=" + vnp_SecureHash;
 
             return baseUrl;
         }
+
+
+
 
         //------------------------RESPONSE DATA----------------------------------------
         public void AddResponseData(string key, string value)
@@ -98,7 +101,7 @@ namespace DangTrungHieu.SachOnline
         public bool ValidateSignature(string inputHash, string secretKey)
         {
             string rspRaw = GetResponseData();
-            string myChecksum = Until.HmacSHA512(secretKey, rspRaw);
+            string myChecksum = Util.HmacSHA512(secretKey, rspRaw);
             return myChecksum.Equals(inputHash, StringComparison.InvariantCultureIgnoreCase);
         }
     }

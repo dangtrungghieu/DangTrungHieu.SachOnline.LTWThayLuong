@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Thông tin đơn hàng mới từ khách hàng: {{Hoten}}</title>
+</head>
+<body>
+    <!--Thông tin sản phẩm-->
+    <table align="center" border="1" style="width:500px">
+        <tr>
+            <td colspan="5" style="font-size:15px; font-weight:bold; text-align:center">THÔNG TIN SẢN PHẨM CỦA HÓA ĐƠN SỐ {{mahoadon}} </td>
+        </tr>
+        <tr style="text-align:center; font-weight:bold; ">
+            <td>Mã Sách</td>
+            <td>Tên Sách</td>
+            <td>Số Lượng</td>
+            <td>Đơn Giá</td>
+            <td>Thành Tiền</td>
+        </tr>
+        {{TableRows}}
+        <tr>
+            <td colspan="3" style="text-align:right; color:red; font-weight:bold; padding-right:5px;">
+                Số lượng sách: {{TongSoLuong}} Quyển
+            </td>
+            <td class="tongtien" colspan="3" style="text-align:center; color:red; font-weight:bold;">
+               Tổng tiền: {{Tongtien}} VNĐ
+            </td>
+
+        </tr>
+    </table>
+    <br />
+    <!--Thông tin khách hàng-->
+    <table align="center" border="1" style="width:500px">
+        <tr>
+            <td colspan="2" style="font-size:15px; font-weight:bold; text-align:center">CỬA HÀNG SÁCH ONLINE - THÔNG TIN HÓA ĐƠN SỐ {{mahoadon}} </td>
+        </tr>
+        <tr style="height:40px;">
+            <td style="color: red; font-weight: bold">Họ tên khách hàng:</td>
+            <td style="font-weight:bold">{{Hoten}}</td>
+        </tr>
+        <tr style="height:40px;">
+            <td style="color: red; font-weight: bold">Địa chỉ:</td>
+            <td style="font-weight:bold">{{Diachi}}</td>
+        </tr>
+        <tr style="height:40px;">
+            <td style="color: red; font-weight: bold">Điện thoại:</td>
+            <td style="font-weight:bold">{{Dienthoai}}</td>
+        </tr>
+        <tr style="height:40px;">
+            <td style="color: red; font-weight: bold">Ngày đặt:</td>
+            <td style="font-weight:bold">{{Ngaydat}}</td>
+        </tr>
+        <tr style="height:40px;">
+            <td style="color: red; font-weight: bold">Ngày giao: </td>
+            <td style="font-weight:bold">{{Ngaygiao}}</td>
+        </tr>
+        <tr style="height:40px;">
+            <td style="color: red; font-weight: bold">Tổng tiền: </td>
+            <td style="font-weight:bold">{{Tongtien}} VNĐ</td>
+        </tr>
+    </table>
+</body>
+</html>
+
+
+

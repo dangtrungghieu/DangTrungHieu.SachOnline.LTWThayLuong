@@ -7,7 +7,7 @@ using System.Web;
 
 namespace DangTrungHieu.SachOnline
 {
-    public class Until
+    public class Util
     {
         public static String HmacSHA512(string key, String inputData)
         {

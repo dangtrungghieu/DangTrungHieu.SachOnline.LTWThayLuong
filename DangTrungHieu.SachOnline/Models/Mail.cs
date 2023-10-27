@@ -27,6 +27,5 @@ namespace DangTrungHieu.SachOnline.Models
 
         [DisplayName("File đính kèm: ")]
         public string Attachment { get; set; }
-
     }
 }

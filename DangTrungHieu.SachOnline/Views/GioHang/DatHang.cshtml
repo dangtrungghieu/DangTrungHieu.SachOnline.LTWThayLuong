@@ -124,7 +124,10 @@
         </tr>
         <tr style="height:40px;">
             <td>
-                <input type="submit" value="Đặt Hàng" class="dathang" />
+                <input type="submit" class="btn btn-success" value="Thanh toán khi nhận hàng" />
+            </td>
+            <td>
+                @Html.ActionLink("Thanh toán bằng VnPay", "Payment", "SachOnline", null, new { @class = "btn btn-success", style = "text-decoration:none;" })
             </td>
         </tr>
     }

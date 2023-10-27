@@ -1,7 +1,11 @@
 ﻿using DangTrungHieu.SachOnline.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 
@@ -160,15 +164,22 @@ namespace DangTrungHieu.SachOnline.Controllers
         }
 
         [HttpPost]
-        public ActionResult DatHang(FormCollection f)
+        public ActionResult DatHang(FormCollection f, Mail model)
         {
                 DONDATHANG ddh = new DONDATHANG();
                 KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"];
                 List<GioHang> listGioHang = LayGioHang();
+                var NgayGiao = String.Format("{0:MM/mm/yyyy}", f["NgayGiao"]);
                 ddh.MaKH = kh.MaKH;
                 ddh.NgayDat = DateTime.Now;
-                var NgayGiao = String.Format("{0:MM/mm/yyyy}", f["NgayGiao"]);
-                ddh.NgayGiao = DateTime.Parse(NgayGiao);
+                if (NgayGiao.ToString() == null)
+                {
+                ViewData["err"] = " Ngày giao hàng không phù hợp!";
+                }
+                else
+                {
+                    ddh.NgayGiao = DateTime.Parse(NgayGiao);
+                }
                 ddh.TinhTrangGiaoHang = 1;
                 ddh.DaThanhToan = false;
                 if (ddh.NgayGiao < ddh.NgayDat)
@@ -190,6 +201,48 @@ namespace DangTrungHieu.SachOnline.Controllers
 
                 }
                 db.SaveChanges();
+                var mail = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    Credentials = new NetworkCredential("dang.trungghieu@gmail.com", "addzwbzmfuidddbj"),
+                    EnableSsl = true
+                };
+                var message = new MailMessage();
+                message.IsBodyHtml = true;
+                model.From = "dang.trungghieu@gmail.com";
+                message.From = new MailAddress(model.From);
+                message.ReplyToList.Add(model.From);
+                model.To = kh.Email;
+                message.To.Add(new MailAddress(model.To));
+                model.Subject = "THÔNG TIN ĐẶT HÀNG";
+                message.Subject = model.Subject;
+                string content = System.IO.File.ReadAllText(Server.MapPath("~/Views/GioHang/HoaDon.html"));
+                string tableRows = ""; // Để lưu tất cả các thẻ <td>
+
+                foreach (var item in listGioHang)
+                {
+                    string row = "<tr>";
+                    row += "<td align=\"center\"><strong>" + item.iMaSach.ToString() + "</strong></td>";
+                    row += "<td align=\"center\"><strong>" + item.sTenSach.ToString() + "</strong></td>";
+                    row += "<td align=\"center\"><strong>" + item.iSoLuong.ToString() + "</strong></td>";
+                    row += "<td align=\"center\"><strong>" + item.dDonGia.ToString() + "</strong></td>";
+                    row += "<td align=\"center\"><strong>" + item.dThanhTien.ToString() + "</strong></td>";
+                    row += "</tr>";
+
+                    tableRows += row;
+                }
+                content = content.Replace("{{TableRows}}", tableRows);
+                content = content.Replace("{{TongSoLuong}}", TongSoLuong().ToString());
+                content = content.Replace("{{Hoten}}", kh.HoTen);
+                content = content.Replace("{{Dienthoai}}", kh.DienThoai);
+                content = content.Replace("{{Email}}", kh.Email);
+                content = content.Replace("{{Diachi}}", kh.DiaChi);
+                content = content.Replace("{{Ngaydat}}", ddh.NgayDat.ToString());
+                content = content.Replace("{{Ngaygiao}}", ddh.NgayGiao.ToString());
+                content = content.Replace("{{Tongtien}}", TongTien().ToString());
+                content = content.Replace("{{mahoadon}}", ddh.MaDonHang.ToString());
+                model.Notes = content.ToString();
+                message.Body = model.Notes;
+                mail.Send(message);
                 Session["GioHang"] = null;
                 return RedirectToAction("XacNhanDonHang", "GioHang");
             }
@@ -199,9 +252,10 @@ namespace DangTrungHieu.SachOnline.Controllers
 
         public ActionResult XacNhanDonHang()
         {
+            KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"];
+            ViewBag.Email = kh.Email;
             return View();
         }
 
-        public
     }
 }
