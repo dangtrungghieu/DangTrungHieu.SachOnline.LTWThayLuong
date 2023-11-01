@@ -4,8 +4,15 @@
     ViewBag.Title = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml";
 }
-
-<h3>Bạn có chắc muốn xóa Nhà xuất bản sau?</h3>
+<style type="text/css">
+    img {
+        width: 200px;
+        margin-bottom: 20px;
+    }
+</style>
+<h2>XÁC NHẬN THÔNG TIN SÁCH CẦN XÓA</h2>
+<h3>Quyết định xóa quyển sách này?</h3>
+<h4>@Html.Raw(ViewBag.ThongBao)</h4>
 <div>
     <hr />
     <dl class="dl-horizontal">

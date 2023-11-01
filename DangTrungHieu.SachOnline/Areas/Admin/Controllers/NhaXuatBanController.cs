@@ -18,7 +18,14 @@ namespace DangTrungHieu.SachOnline.Areas.Admin.Controllers
         private SachOnlineEntities db1 = new SachOnlineEntities();
         public ActionResult Index()
         {
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return Redirect("~/Admin/Login/Login");
+            }
+            else
+            {
                 return View(db1.NHAXUATBAN.ToList());
+            } 
         }
         // GET: Admin/NhaXuatBan/Create
         public ActionResult Create()

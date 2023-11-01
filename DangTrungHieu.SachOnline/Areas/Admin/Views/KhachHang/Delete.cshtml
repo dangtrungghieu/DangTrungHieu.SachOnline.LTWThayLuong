@@ -1,0 +1,78 @@
+﻿@model DangTrungHieu.SachOnline.Models.KHACHHANG
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml";
+}
+<h2>Xóa khách hàng</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label class="control-label col-md-2">Họ tên KH:</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoTen)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2">Địa chỉ KH:</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2">Điện thoại KH:</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DienThoai)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2">Tên Đăng nhập KH:</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaiKhoan)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2">Mật khẩu KH:</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MatKhau)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2">Ngày sinh:</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgaySinh)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2">Email:</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Trở về trang quản lí khách hàng", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
+        </div>}
+</div>
+
+
