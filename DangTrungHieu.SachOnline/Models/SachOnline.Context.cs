@@ -30,10 +30,11 @@ namespace DangTrungHieu.SachOnline.Models
         public virtual DbSet<CHUDE> CHUDE { get; set; }
         public virtual DbSet<DONDATHANG> DONDATHANG { get; set; }
         public virtual DbSet<KHACHHANG> KHACHHANG { get; set; }
+        public virtual DbSet<MENU> MENU { get; set; }
         public virtual DbSet<NHAXUATBAN> NHAXUATBAN { get; set; }
         public virtual DbSet<SACH> SACH { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TACGIA> TACGIA { get; set; }
+        public virtual DbSet<TRANGTIN> TRANGTIN { get; set; }
         public virtual DbSet<VIETSACH> VIETSACH { get; set; }
     }
 }

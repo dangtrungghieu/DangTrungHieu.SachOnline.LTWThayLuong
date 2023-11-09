@@ -169,6 +169,9 @@
       <DependentUpon>SachOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\MENU.cs">
+      <DependentUpon>SachOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\NHAXUATBAN.cs">
       <DependentUpon>SachOnline.tt</DependentUpon>
     </Compile>
@@ -191,10 +194,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SachOnline.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
+    <Compile Include="Models\TACGIA.cs">
       <DependentUpon>SachOnline.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TACGIA.cs">
+    <Compile Include="Models\TRANGTIN.cs">
       <DependentUpon>SachOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VIETSACH.cs">
@@ -279,13 +282,6 @@
     <Content Include="Areas\Admin\Views\NhaXuatBan\Details.cshtml" />
     <Content Include="Areas\Admin\Views\NhaXuatBan\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ChuDe\Index.cshtml" />
-    <EntityDeploy Include="Models\SachOnline.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SachOnline.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\SachOnline.edmx.diagram">
-      <DependentUpon>SachOnline.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Admin\Views\Sach\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Sach\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Sach\Details.cshtml" />
@@ -401,6 +397,13 @@
     <Content Include="Areas\Admin\Contents\scss\bootstrap\_utilities.scss" />
     <Content Include="Areas\Admin\Contents\scss\bootstrap\_variables.scss" />
     <Content Include="Areas\Admin\Contents\scss\style.scss" />
+    <EntityDeploy Include="Models\SachOnline.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SachOnline.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SachOnline.edmx.diagram">
+      <DependentUpon>SachOnline.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -422,9 +425,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\LayoutSachOnline.cshtml" />
     <Content Include="Views\SachOnline\SachOnline.cshtml" />
     <Content Include="Views\Shared\NavPartial.cshtml" />
@@ -452,6 +452,8 @@
     <Content Include="Views\GioHang\XacNhanDonHang.cshtml" />
     <Content Include="Views\GioHang\DatHang.cshtml" />
     <Content Include="Views\SachOnline\PaymentConfirm.cshtml" />
+    <Content Include="Views\SachOnline\LoadChildMenu.cshtml" />
+    <Content Include="Views\SachOnline\TrangTin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

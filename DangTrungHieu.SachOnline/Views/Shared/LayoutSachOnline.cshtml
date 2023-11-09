@@ -5,8 +5,10 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/Scripts/js")
+
 </head>
 <body>
+
     @Html.Action("NavPartial", "SachOnline")
     @RenderSection("Slider", required: false)
     <div class="container">

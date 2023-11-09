@@ -1,46 +1,205 @@
 ﻿@using DangTrungHieu.SachOnline.Models
-@using PagedList.Mvc;
-@model PagedList.PagedList<DangTrungHieu.SachOnline.Models.CHUDE>
-@{ ViewBag.Title = "Index";
-                Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml"; }
+@*@using DangTrungHieu.SachOnline.Models
+    @using PagedList.Mvc;
+    @model PagedList.PagedList<DangTrungHieu.SachOnline.Models.CHUDE>
 
-<h2 style="text-align:center">QUẢN LÝ CHỦ ĐỀ</h2>
-<p>
-    @Html.ActionLink("Tạo mới", "Create")
-</p>
-<table class="table">
+
+    <h2 style="text-align:center">QUẢN LÝ CHỦ ĐỀ</h2>
+    <p>
+        @Html.ActionLink("Tạo mới", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Tên chủ đề
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
     <tr>
-        <th>
-            Tên chủ đề
-        </th>
-        <th></th>
+        <td>
+
+            @Html.DisplayFor(modelItem => item.TenChuDe)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", new { id = item.MaCD })" class="btn btn-warning" role="button">Sửa</a>
+            <a href="@Url.Action("Details", new { id = item.MaCD })" class="btn btn-primary" role="button">Chi tiết</a>
+            <a href="@Url.Action("Delete", new { id = item.MaCD })" class="btn btn-danger" role="button">Xóa</a>
+        </td>
     </tr>
-
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-
-        @Html.DisplayFor(modelItem => item.TenChuDe)
-    </td>
-    <td>
-        <a href="@Url.Action("Edit", new { id = item.MaCD })" class="btn btn-warning" role="button">Sửa</a>
-        <a href="@Url.Action("Details", new { id = item.MaCD })" class="btn btn-primary" role="button">Chi tiết</a>
-        <a href="@Url.Action("Delete", new { id = item.MaCD })" class="btn btn-danger" role="button">Xóa</a>
-    </td>
-</tr>}
-
-</table>
-@*Tạo iên kết phần trang*@
-    Trang @(Model.PageCount < Model.PageNumber ? 0 :
-Model.PageNumber)/@Model.PageCount
-<div class="MenuTrang">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
-</div>
-
-<style>
-    .MenuTrang {
-        display: inline;
-        text-align: center;
     }
-</style>
+
+    </table>
+    Tạo iên kết phần trang
+        Trang @(Model.PageCount < Model.PageNumber ? 0 :
+    Model.PageNumber)/@Model.PageCount
+    <div class="MenuTrang">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+    </div>
+
+    <style>
+        .MenuTrang {
+            display: inline;
+            text-align: center;
+        }
+    </style>*@
+@*//$(document).ready(function () {
+            //    loadPage(1);
+            //});
+
+            //function loadPage(page) {
+            //    var pageSize = 5; // Kích thước trang
+            //    $.ajax({
+            //        url: 'DsChuDe',
+            //        type: 'get',
+            //        data: { page: page, pageSize: pageSize },
+            //        success: function (data) {
+            //            if (data.code === 200) {
+            //                $('#tblDsChuDe').empty();
+            //                $.each(data.dsCD, function (k, v) {
+            //                    let s = '<tr id="' + v.MaCD + '">
+        ';
+        //                    s += '
+        <td class="col-ms-9">' + v.TenCD + '</td>';
+        //                    s += '
+        <td class="col-ms-3 text-right">
+            ';
+            //                    s += '<button class="btn btn-sm btn-info" name="view"><i class="fa fa-info-circle" aria-hidden="true"></i></button>&nbsp';
+            //                    s += '<button class="btn btn-sm btn-warning" name="update"><i class="fa fa-edit" aria-hidden="true"></i></button>&nbsp';
+            //                    s += '<button class="btn btn-sm btn-danger" name="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+            //                    s += '
+        </td>';
+        //                    s += '
+    </tr>';
+            //                    $('#tblDsChuDe').append(s);
+            //                });
+
+            //                // Hiển thị thanh phân trang
+            //                renderPagination(data.currentPage, data.totalPages);
+            //            }
+            //        }
+            //    });
+            //}
+
+            //function renderPagination(currentPage, totalPages) {
+            //    // Hiển thị thanh phân trang (nút trang, ví dụ: Trang 1, 2, 3,...)
+            //    var pagination = '';
+
+            //    for (var i = 1; i <= totalPages; i++) {
+            //        if (i === currentPage) {
+            //            pagination += '<span>' + " " + i + " " + '</span>';
+            //        } else {
+            //            pagination += '<a href="#" onclick="loadPage(' + i + ')">' + " " + i + " " + '</a>';
+            //        }
+            //    }
+
+            //    $('#pagination').html(pagination);
+            //}*@
+<!-------------------------------------------------------------------------------------------->
+@*<p>
+        <button class="btn btn-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i>Thêm chủ đề</button>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-ms-9">
+                    Tên chủ đề
+                </th>
+                <th class="col-ms-9 text-right">Các chức năng</th>
+            </tr>
+        </thead>
+        <tbody id="tblDsChuDe">
+        </tbody>
+    </table>
+    <div id="pagination" class="menuTrang px-2">
+    </div>
+    <div id="tblChiTietChuDe">
+        <h2>Thông tin chủ đề</h2>
+        <p>Mã chủ đề: <span id="maChuDe"></span></p>
+        <p>Tên chủ đề: <span id="tenChuDe"></span></p>
+    </div>
+
+    <style>
+        .menuTrang {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                loadPage(1);
+            });
+
+            function loadPage(page) {
+                var pageSize = 5; // Kích thước trang
+                $.ajax({
+                    url: 'DsChuDe',
+                    type: 'get',
+                    data: { page: page, pageSize: pageSize },
+                    success: function (data) {
+                        if (data.code === 200) {
+                            $('#tblDsChuDe').empty();
+                            $.each(data.dsCD, function (k, v) {
+                                let s = '<tr id ="' + v.MaCD + '">';
+                                s += '<td class = "col-ms-9">' + v.TenCD + '</td>';
+                                s += '<td class = "col-ms-3 text-right">';
+                                s += '<button class="btn btn-sm btn-info view-btn" data-chudeid="' + v.MaCD + '"><i class="fa fa-info-circle" aria-hidden="true"></i></button>&nbsp';
+                                s += '<button class="btn btn-sm btn-warning" name="update"><i class="fa fa-edit" aria-hidden="true"></i></button>&nbsp';
+                                s += '<button class="btn btn-sm btn-danger" name="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                                s += '</td>';
+                                s += '</tr>';
+                                $('#tblDsChuDe').append(s);
+                            });
+
+                            // Hiển thị thanh phân trang
+                            renderPagination(data.currentPage, data.totalPages);
+
+                            // Xử lý sự kiện khi người dùng chọn xem chi tiết
+                            $('.view-btn').click(function () {
+                                var chudeId = $(this).data('chudeid');
+                                viewChuDe(chudeId);
+                            });
+                        }
+                    }
+                });
+            }
+
+            function renderPagination(currentPage, totalPages) {
+                // Hiển thị thanh phân trang (nút trang, ví dụ: Trang 1, 2, 3,...)
+                var pagination = '';
+
+                for (var i = 1; i <= totalPages; i++) {
+                    if (i === currentPage) {
+                        pagination += '<span>' + " " + i + " " + '</span>';
+                    } else {
+                        pagination += '<a  href="#" onclick="loadPage(' + i + ')">' + " " + i + " " + '</a>';
+                    }
+                }
+
+                $('#pagination').html(pagination);
+            }
+
+            function viewChuDe(chudeId) {
+                $.ajax({
+                    url: 'ChiTietChuDe',
+                    type: 'get',
+                    data: { chudeId: chudeId },
+                    success: function (data) {
+                        if (data.code === 200) {
+                            // Cập nhật tên chủ đề và mã chủ đề
+                            $('#tenChuDe').text(data.chiTiet.TenCD);
+                            $('#maChuDe').text(data.chiTiet.MaCD);
+                        }
+                    }
+                });
+            }
+
+        </script>
+    }*@
+<!---------------------------------------------------------------------------------------->
+@{ ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml";
+}

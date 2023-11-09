@@ -28,11 +28,50 @@ namespace DangTrungHieu.SachOnline.Controllers
 
             return View(sach.OrderBy(s => s.MaSach).ToPagedList(iPageNum, iSize));
         }
+        //Menu Dong
         [ChildActionOnly]
         public ActionResult NavPartial()
         {
-            return PartialView();
+            var menus = db.MENU.OrderBy(m => m.OrderNumber).ToList();
+            var parentIds = menus.Where(m => m.ParentId == null).Select(m => m.Id).ToList();
+
+            var childCounts = db.MENU
+                .Where(m => parentIds.Contains((int)m.ParentId))
+                .GroupBy(m => m.ParentId)
+                .Select(g => new { ParentId = g.Key, Count = g.Count() })
+                .ToDictionary(x => x.ParentId, x => x.Count);
+
+            ViewBag.ChildCounts = childCounts;
+            return PartialView(menus);
         }
+        [ChildActionOnly]
+        public ActionResult LoadChildMenu(int parentId)
+        {
+            var childMenus = db.MENU
+                    .Where(m => m.ParentId == parentId)
+                    .OrderBy(m => m.OrderNumber)
+                    .ToList();
+
+            var parentIds = childMenus.Select(cm => cm.Id).ToList();
+
+            var childCounts = db.MENU
+                .Join(
+                    db.MENU,
+                    child => child.Id,
+                    parent => parent.ParentId.Value,
+                    (child, parent) => new { Child = child, ParentId = parent.ParentId.Value }
+                )
+                .Where(joinResult => parentIds.Contains(joinResult.ParentId))
+                .GroupBy(joinResult => joinResult.ParentId)
+                .Select(g => new { ParentId = g.Key, Count = g.Count() })
+                .ToDictionary(x => x.ParentId, x => x.Count);
+
+            ViewBag.Count = childMenus.Count();
+            ViewBag.ChildCounts = childCounts;
+
+            return PartialView("LoadChildMenu", childMenus);
+        }
+        //End Menu Dong
         [ChildActionOnly]
         public ActionResult NXB()
         {
@@ -66,7 +105,6 @@ namespace DangTrungHieu.SachOnline.Controllers
         {
             return PartialView("DangNhapDangKyPartial");
         }
-        [HttpGet]
         public ActionResult ChiTietSach(int id)
         {
             TempData["ReturnUrl"] = Request.Url.AbsoluteUri;
@@ -83,7 +121,6 @@ namespace DangTrungHieu.SachOnline.Controllers
         }
         //Chi tiet sach theo chu de
 
-        [HttpGet]
         public ActionResult SachTheoChuDe(int id, int? page)
         {
             TempData["ReturnUrl"] = Request.Url.AbsoluteUri;
@@ -95,7 +132,6 @@ namespace DangTrungHieu.SachOnline.Controllers
             return View(sach.OrderBy(s => s.MaCD).ToPagedList(iPageNum, iSize));
         }
         //Chi tiet sach theo nha xuat ban
-        [HttpGet]
         public ActionResult SachTheoNXB(int id, int? page)
         {
             TempData["ReturnUrl"] = Request.Url.AbsoluteUri;
@@ -176,6 +212,12 @@ namespace DangTrungHieu.SachOnline.Controllers
                 }
             }
             return View();
+        }
+        //Load trang tin
+        public ActionResult TrangTin(string metatitle)
+        {
+            var tt = (from t in db.TRANGTIN where t.MetaTitle == metatitle select t).Single();
+            return View(tt);
         }
     }
 }
