@@ -20,11 +20,11 @@ namespace DangTrungHieu.SachOnline
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                     "~/Scripts/bootstrap.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css"));
-            bundles.Add(new ScriptBundle("~/Scripts/js").Include("~/Scripts/bootstrap.min.js", "~/Scripts/jquery-1.11.3.min.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/js").Include("~/Scripts/jquery-3.4.1.min.js","~/Scripts/bootstrap.min.js"));
         }
     }
 }

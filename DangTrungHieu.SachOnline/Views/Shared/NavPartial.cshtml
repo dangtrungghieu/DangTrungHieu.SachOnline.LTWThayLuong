@@ -42,12 +42,11 @@
         <div class="collapse navbar-collapse" id="navbar1">
             <ul class="nav navbar-nav">
                 @{
+                    int i = 0;
                     foreach (var item in Model)
                     {
-                        var childCount = ViewBag.ChildCounts.ContainsKey(item.Id) ? ViewBag.ChildCounts[item.Id] : 0;
 
-                        if (childCount != 0)
-                        {
+                        if (ViewBag.lst[i] != 0) { 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     @item.MenuName <span class="caret"></span>
@@ -66,6 +65,7 @@
                                 <li><a href="~/@item.MenuLink">@item.MenuName</a></li>
                             }
                         }
+                        i++;
                     }
                 }
             </ul>

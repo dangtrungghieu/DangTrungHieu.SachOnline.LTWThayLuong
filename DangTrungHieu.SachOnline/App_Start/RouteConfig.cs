@@ -21,20 +21,20 @@ namespace DangTrungHieu.SachOnline
             );
             routes.MapRoute(
                 name: "Sach theo Chu de",
-                url: "sach-theo-chu-de/{MaCD}",
-                defaults: new { controller = "SachOnline", action = "SachTheoChuDe", MaCD = UrlParameter.Optional },
+                url: "sach-theo-chu-de-{id}",
+                defaults: new { controller = "SachOnline", action = "SachTheoChuDe", id = UrlParameter.Optional },
                 namespaces: new string[] { "DangTrungHieu.SachOnline.Controllers" }
             );
             routes.MapRoute(
                 name: "Sach theo NXB",
-                url: "sach-theo-nxb/{MaNXB}",
-                defaults: new { controller = "SachOnline", action = "SachTheoNXB", MaNXB = UrlParameter.Optional},
+                url: "sach-theo-nxb-{id}",
+                defaults: new { controller = "SachOnline", action = "SachTheoNXB", id = UrlParameter.Optional},
                 namespaces: new string[] { "DangTrungHieu.SachOnline.Controllers" }
             );
             routes.MapRoute(
                 name: "Chi tiet sach",
-                url: "chi-tiet-sach-{MaSach}",
-                defaults: new { controller = "SachOnline", action = "ChiTietSach", MaSach = UrlParameter.Optional },
+                url: "chi-tiet-sach-{id}",
+                defaults: new { controller = "SachOnline", action = "ChiTietSach", id = UrlParameter.Optional },
                 namespaces: new string[] { "DangTrungHieu.SachOnline.Controllers" }
             );
             routes.MapRoute(

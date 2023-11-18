@@ -14,125 +14,115 @@ namespace DangTrungHieu.SachOnline.Areas.Admin.Controllers
 {
     public class ChuDeController : Controller
     {
-        //Khai bao chuoi ket noi
-        //private SachOnlineEntities db = new SachOnlineEntities();
-        //// GET: Admin/ChuDe
-        //public ActionResult Index(/*int? page*/)
-        //{
-        //    //if (Session["Admin"] == null || Session["Admin"].ToString() == "")
-        //    //{
-        //    //    return Redirect("~/Admin/Login/Login");
-        //    //}
-        //    //else
-        //    //{
-
-        //    //    int iPageNum = (page ?? 1);
-        //    //    int iPageSize = 7;
-        //    //    return View(db.CHUDE.ToList().OrderBy(n => n.MaCD).ToPagedList(iPageNum, iPageSize));
-        //    //}
-        //    //if (Session["Admin"] == null || Session["Admin"].ToString() == "")
-        //    //{
-        //    //    return Redirect("~/Admin/Login/Login");
-        //    //}
-        //    //else
-        //    //{
-        //    //    return View();
-        //    //}
-        //    return View();
-        //}
-        //// GET: Admin/CHUDEs/Create
-        //[HttpGet]
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Admin/CHUDEs/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "MaCD,TenChuDe")] CHUDE cHUDE)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.CHUDE.Add(cHUDE);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(cHUDE);
-        //}
-        //// GET: Admin/CHUDEs/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    CHUDE cHUDE = db.CHUDE.Find(id);
-        //    if (cHUDE == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(cHUDE);
-        //}
-
-        //// POST: Admin/CHUDEs/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "MaCD,TenChuDe")] CHUDE cHUDE)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(cHUDE).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(cHUDE);
-        //}
-
-        //// GET: Admin/CHUDEs/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    CHUDE cHUDE = db.CHUDE.Find(id);
-        //    if (cHUDE == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(cHUDE);
-        //}
-
-        //// POST: Admin/CHUDEs/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    CHUDE cHUDE = db.CHUDE.Find(id);
-        //    db.CHUDE.Remove(cHUDE);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
         SachOnlineEntities db = new SachOnlineEntities();
         public ActionResult Index()
         {
-            return View();
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return Redirect("~/Admin/Login/Login");
+            }
+            else
+            {
+                return View();
+            }
+        }
+        [HttpGet]
+        public JsonResult DsChuDe(int page = 1, int pageSize = 5)
+        {
+            try
+            {
+                var totalChuDe = db.CHUDE.Count();
+                var dsCD = db.CHUDE
+                    .OrderBy(c => c.MaCD)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(cd => new
+                    {
+                        MaCD = cd.MaCD,
+                        TenCD = cd.TenChuDe
+                    })
+                    .ToList();
+
+                var totalPages = (int)Math.Ceiling((double)totalChuDe / pageSize);
+
+                return Json(new
+                {
+                    code = 200,
+                    dsCD = dsCD,
+                    msg = "Lấy danh sách thành công!",
+                    currentPage = page,
+                    totalPages = totalPages
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = 500, msg = "Lấy danh sách thất bại! " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult Detail(int maCD)
+        {
+            try
+            {
+                var cd = (from s in db.CHUDE where (s.MaCD == maCD)
+                          select new {
+                              MaCD = s.MaCD,
+                              TenChuDe = s.TenChuDe
+                          }).SingleOrDefault();
+                return Json(new { code = 200, cd = cd, msg = "Lay thong tin thanh cong" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { code = 500, msg = "Lay thong tin that bai" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult AddChuDe(string strTenCD)
+        {
+            try
+            {
+                var cd = new CHUDE();
+                cd.TenChuDe = strTenCD;
+                db.CHUDE.Add(cd);
+                db.SaveChanges();
+                return Json(new { code = 200, msg = "Them thanh cong" }, JsonRequestBehavior.AllowGet);
+            }catch(Exception ex)
+            {
+                return Json(new { code = 500, msg = "Them that bai" + ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        [HttpPost]
+        public ActionResult Update(int maCD, string strTenCD)
+        {
+            try
+            {
+                var cd = db.CHUDE.SingleOrDefault(c => c.MaCD == maCD);
+                cd.TenChuDe = strTenCD;
+                db.SaveChanges();
+                return Json(new { code = 200, msg = "Sua thanh cong" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = 500, msg = "Sua that bai" + ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        [HttpPost]
+        public ActionResult Delete(int maCD)
+        {
+            try
+            {
+                var cd = db.CHUDE.SingleOrDefault(c => c.MaCD == maCD);
+                db.CHUDE.Remove(cd);
+                db.SaveChanges();
+                return Json(new { code = 200, msg = "Xoa thanh cong" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = 500, msg = "Xoa that bai" + ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
         }
     }
 }

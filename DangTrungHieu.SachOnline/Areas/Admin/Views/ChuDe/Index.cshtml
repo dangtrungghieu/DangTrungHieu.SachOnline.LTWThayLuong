@@ -1,106 +1,9 @@
 ﻿@using DangTrungHieu.SachOnline.Models
-@*@using DangTrungHieu.SachOnline.Models
-    @using PagedList.Mvc;
-    @model PagedList.PagedList<DangTrungHieu.SachOnline.Models.CHUDE>
-
-
-    <h2 style="text-align:center">QUẢN LÝ CHỦ ĐỀ</h2>
-    <p>
-        @Html.ActionLink("Tạo mới", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                Tên chủ đề
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-    <tr>
-        <td>
-
-            @Html.DisplayFor(modelItem => item.TenChuDe)
-        </td>
-        <td>
-            <a href="@Url.Action("Edit", new { id = item.MaCD })" class="btn btn-warning" role="button">Sửa</a>
-            <a href="@Url.Action("Details", new { id = item.MaCD })" class="btn btn-primary" role="button">Chi tiết</a>
-            <a href="@Url.Action("Delete", new { id = item.MaCD })" class="btn btn-danger" role="button">Xóa</a>
-        </td>
-    </tr>
-    }
-
-    </table>
-    Tạo iên kết phần trang
-        Trang @(Model.PageCount < Model.PageNumber ? 0 :
-    Model.PageNumber)/@Model.PageCount
-    <div class="MenuTrang">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
-    </div>
-
-    <style>
-        .MenuTrang {
-            display: inline;
-            text-align: center;
-        }
-    </style>*@
-@*//$(document).ready(function () {
-            //    loadPage(1);
-            //});
-
-            //function loadPage(page) {
-            //    var pageSize = 5; // Kích thước trang
-            //    $.ajax({
-            //        url: 'DsChuDe',
-            //        type: 'get',
-            //        data: { page: page, pageSize: pageSize },
-            //        success: function (data) {
-            //            if (data.code === 200) {
-            //                $('#tblDsChuDe').empty();
-            //                $.each(data.dsCD, function (k, v) {
-            //                    let s = '<tr id="' + v.MaCD + '">
-        ';
-        //                    s += '
-        <td class="col-ms-9">' + v.TenCD + '</td>';
-        //                    s += '
-        <td class="col-ms-3 text-right">
-            ';
-            //                    s += '<button class="btn btn-sm btn-info" name="view"><i class="fa fa-info-circle" aria-hidden="true"></i></button>&nbsp';
-            //                    s += '<button class="btn btn-sm btn-warning" name="update"><i class="fa fa-edit" aria-hidden="true"></i></button>&nbsp';
-            //                    s += '<button class="btn btn-sm btn-danger" name="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>';
-            //                    s += '
-        </td>';
-        //                    s += '
-    </tr>';
-            //                    $('#tblDsChuDe').append(s);
-            //                });
-
-            //                // Hiển thị thanh phân trang
-            //                renderPagination(data.currentPage, data.totalPages);
-            //            }
-            //        }
-            //    });
-            //}
-
-            //function renderPagination(currentPage, totalPages) {
-            //    // Hiển thị thanh phân trang (nút trang, ví dụ: Trang 1, 2, 3,...)
-            //    var pagination = '';
-
-            //    for (var i = 1; i <= totalPages; i++) {
-            //        if (i === currentPage) {
-            //            pagination += '<span>' + " " + i + " " + '</span>';
-            //        } else {
-            //            pagination += '<a href="#" onclick="loadPage(' + i + ')">' + " " + i + " " + '</a>';
-            //        }
-            //    }
-
-            //    $('#pagination').html(pagination);
-            //}*@
-<!-------------------------------------------------------------------------------------------->
-@*<p>
-        <button class="btn btn-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i>Thêm chủ đề</button>
-    </p>
+<!---------------------------------------------------------------------------------------->
+@{ ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml";
+}
+<button class="btn btn-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i>Thêm chủ đề</button><br />
     <table class="table">
         <thead>
             <tr>
@@ -113,30 +16,173 @@
         <tbody id="tblDsChuDe">
         </tbody>
     </table>
-    <div id="pagination" class="menuTrang px-2">
-    </div>
-    <div id="tblChiTietChuDe">
-        <h2>Thông tin chủ đề</h2>
-        <p>Mã chủ đề: <span id="maChuDe"></span></p>
-        <p>Tên chủ đề: <span id="tenChuDe"></span></p>
+<div id="pagination" class="menuTrang px-2"></div>
+
+<div class="modal fade" id="modalChuDe" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="panel panel-primary">
+                <div class="panel-heading" id="modalTitle"></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <input type="text" id="maCD" value="" hidden />
+                        <label>Tên chủ đề</label>
+                        <input type="text" class="form-control" id="txtTenChuDe" placeholder="Tên chủ đề ...." />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSubmit">Lưu</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
     </div>
 
-    <style>
-        .menuTrang {
+</div>
+
+
+<style>
+    .menuTrang {
             text-align: center;
             font-weight: bold;
-        }
-    </style>
-    @section scripts{
+    }
+</style>
+@section scripts{
         <script>
+            //Index
             $(document).ready(function () {
                 loadPage(1);
-            });
+                
 
+                //Chi tiet
+                $(document).on('click', "button[name='view']", function () {
+                    let idCD = $(this).closest('tr').attr('id');
+                    $.ajax({
+                        url: 'ChuDe/Detail',
+                        type: 'get',
+                        data: {
+                            maCD: idCD
+                        },
+                        success: function (data) {
+                            if (data.code == 200) {
+                                $('#txtTenChuDe').val(data.cd.TenChuDe);
+                                $('#txtTenChuDe').prop('readonly', true); // Sửa chính tả
+                                $('#btnSubmit').hide();
+                                $('#modalTitle').text('Xem chi tiet');
+                                $('#modalChuDe').modal();
+                            } else {
+                                alert(data.msg);
+                            }
+                        }
+                    });
+                });
+
+                //update
+                $(document).on('click', "button[name='update']", function () {
+                    let idCD = $(this).closest('tr').attr('id');
+                    $.ajax({
+                        url: 'ChuDe/Detail',
+                        type: 'get',
+                        data: {
+                            maCD: idCD
+                        },
+                        success: function (data) {
+                            if (data.code == 200) {
+                                $('#txtTenChuDe').val(data.cd.TenChuDe);
+                                $('#txtTenChuDe').prop('readonly', false);
+                                $('#btnSubmit').show();
+                                $('modalTitle').text('Cap nhat');
+                                $('#maCD').val(idCD);
+                                $('#modalChuDe').modal();
+                            } else {
+                                alert(data.msg);
+                            }
+                        }
+                    })
+                    
+                });
+
+                //delete
+                $(document).on('click', "button[name='delete']", function () {
+                    let idCD = $(this).closest('tr').attr('id');
+                    if (confirm('Ban co chac chan muon xoa?')) {
+                        $.ajax({
+                            url: 'ChuDe/Delete',
+                            type: 'post',
+                            data: {
+                                maCD: idCD
+                            },
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    alert(data.msg);
+                                    loadPage();
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }
+                        })
+                    }
+                });
+
+                //Them moi
+                $('#btnAdd').click(function () {
+                    $('#modalTitle').text('Them moi chu de');
+                    $('#maCD').val('');
+                    $('#txtTenChuDe').val('');
+                    $('#txtTenChuDe').prop('readonly', false);
+                    $('#btnSubmit').show();
+                    $('#modalChuDe').modal();
+                });
+                $('#btnSubmit').click(function () {
+                    let strTenChuDe = $('#txtTenChuDe').val().trim();
+                    if (strTenChuDe.length == 0) {
+                        alert('Vui long nhap ten chu de');
+                        return;
+                    }
+                    let maCD = $('#maCD').val().trim();
+                    if (maCD == 0) {
+                        $.ajax({
+                            url: 'ChuDe/AddChuDe',
+                            type: 'post',
+                            data: {
+                                strTenCD: strTenChuDe
+                            },
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    alert(data.msg);
+                                    loadPage();
+                                    $('#txtTenChuDe').val('');
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }
+                        })
+                    } else {
+                        $.ajax({
+                            url: 'ChuDe/Update',
+                            type: 'post',
+                            data: {
+                                maCD: maCD,
+                                strTenCD: strTenChuDe
+                            },
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    alert(data.msg);
+                                    $('#modalChuDe').modal('hide');
+                                    loadPage();
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }
+                        })
+                    }
+                });
+            });
             function loadPage(page) {
                 var pageSize = 5; // Kích thước trang
                 $.ajax({
-                    url: 'DsChuDe',
+                    url: 'ChuDe/DsChuDe',
                     type: 'get',
                     data: { page: page, pageSize: pageSize },
                     success: function (data) {
@@ -146,7 +192,7 @@
                                 let s = '<tr id ="' + v.MaCD + '">';
                                 s += '<td class = "col-ms-9">' + v.TenCD + '</td>';
                                 s += '<td class = "col-ms-3 text-right">';
-                                s += '<button class="btn btn-sm btn-info view-btn" data-chudeid="' + v.MaCD + '"><i class="fa fa-info-circle" aria-hidden="true"></i></button>&nbsp';
+                                s += '<button class="btn btn-sm btn-info" name="view"><i class="fa fa-info-circle" aria-hidden="true"></i></button>&nbsp';
                                 s += '<button class="btn btn-sm btn-warning" name="update"><i class="fa fa-edit" aria-hidden="true"></i></button>&nbsp';
                                 s += '<button class="btn btn-sm btn-danger" name="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>';
                                 s += '</td>';
@@ -166,9 +212,8 @@
                     }
                 });
             }
-
+            //Phan Trang
             function renderPagination(currentPage, totalPages) {
-                // Hiển thị thanh phân trang (nút trang, ví dụ: Trang 1, 2, 3,...)
                 var pagination = '';
 
                 for (var i = 1; i <= totalPages; i++) {
@@ -182,24 +227,5 @@
                 $('#pagination').html(pagination);
             }
 
-            function viewChuDe(chudeId) {
-                $.ajax({
-                    url: 'ChiTietChuDe',
-                    type: 'get',
-                    data: { chudeId: chudeId },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            // Cập nhật tên chủ đề và mã chủ đề
-                            $('#tenChuDe').text(data.chiTiet.TenCD);
-                            $('#maChuDe').text(data.chiTiet.MaCD);
-                        }
-                    }
-                });
-            }
-
         </script>
-    }*@
-<!---------------------------------------------------------------------------------------->
-@{ ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml";
 }

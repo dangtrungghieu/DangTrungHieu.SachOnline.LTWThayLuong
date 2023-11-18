@@ -32,44 +32,33 @@ namespace DangTrungHieu.SachOnline.Controllers
         [ChildActionOnly]
         public ActionResult NavPartial()
         {
-            var menus = db.MENU.OrderBy(m => m.OrderNumber).ToList();
-            var parentIds = menus.Where(m => m.ParentId == null).Select(m => m.Id).ToList();
-
-            var childCounts = db.MENU
-                .Where(m => parentIds.Contains((int)m.ParentId))
-                .GroupBy(m => m.ParentId)
-                .Select(g => new { ParentId = g.Key, Count = g.Count() })
-                .ToDictionary(x => x.ParentId, x => x.Count);
-
-            ViewBag.ChildCounts = childCounts;
-            return PartialView(menus);
+            List<MENU> lst = new List<MENU>();
+            lst = db.MENU.Where(m => m.ParentId == null).OrderBy(m => m.OrderNumber).ToList();
+            ViewBag.Count = lst.Count();
+            int[] a = new int[lst.Count()];
+            for (int i = 0; i < lst.Count; i++)
+            {
+                var temp = (int)lst[i].Id;
+                a[i] = db.MENU.Count(m => m.ParentId == temp);
+            }
+            ViewBag.lst = a;
+            return PartialView(lst);
         }
         [ChildActionOnly]
         public ActionResult LoadChildMenu(int parentId)
         {
-            var childMenus = db.MENU
-                    .Where(m => m.ParentId == parentId)
-                    .OrderBy(m => m.OrderNumber)
-                    .ToList();
+            List<MENU> lst = new List<MENU>();
+            lst = db.MENU.Where(m => m.ParentId == parentId).OrderBy(m => m.OrderNumber).ToList();
+            ViewBag.Count = lst.Count();
+            int[] a = new int[lst.Count()];
+            for (int i = 0; i < lst.Count; i++)
+            {
+                var temp = (int)lst[i].Id;
+                a[i] = db.MENU.Count(m => m.ParentId == temp);
+            }
+            ViewBag.lst = a;
 
-            var parentIds = childMenus.Select(cm => cm.Id).ToList();
-
-            var childCounts = db.MENU
-                .Join(
-                    db.MENU,
-                    child => child.Id,
-                    parent => parent.ParentId.Value,
-                    (child, parent) => new { Child = child, ParentId = parent.ParentId.Value }
-                )
-                .Where(joinResult => parentIds.Contains(joinResult.ParentId))
-                .GroupBy(joinResult => joinResult.ParentId)
-                .Select(g => new { ParentId = g.Key, Count = g.Count() })
-                .ToDictionary(x => x.ParentId, x => x.Count);
-
-            ViewBag.Count = childMenus.Count();
-            ViewBag.ChildCounts = childCounts;
-
-            return PartialView("LoadChildMenu", childMenus);
+            return PartialView("LoadChildMenu", lst);
         }
         //End Menu Dong
         [ChildActionOnly]

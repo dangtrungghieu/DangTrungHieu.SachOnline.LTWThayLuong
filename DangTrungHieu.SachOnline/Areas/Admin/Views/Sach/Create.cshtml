@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutUser.cshtml";
 }
 <h2>THÊM SÁCH</h2>
-<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script src="~/ckeditor/ckeditor.js"></script>
 @using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -23,14 +23,7 @@
             <div class="col-md-10">
                 <textarea name="sMoTa" id="mota">@ViewBag.MoTa</textarea>
                 <script>
-                    CKEDITOR.replace('sMoTa', {
-                        // Provide the activation key.
-                        licenseKey: 'YnBZZnlid1JmeFlKMTdXMGFwV3lRS3BsaEhYdUFrZExTSm1HM3d5Z3BFUDgyb21QM0ZEUDdQc2hvRUtZLU1qQXlNekV4TWprPQ==',
-                        // Set the output format to plain text.
-                        format_output: 'text',
-                        // Disable automatic conversion of special characters to entities.
-                        basicEntities: false,
-                    });
+                    CKEDITOR.replace('mota');
                 </script>
             </div>
         </div>
